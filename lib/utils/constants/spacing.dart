@@ -1,0 +1,13 @@
+const double bs = 44;
+const double up = 8;
+const double dp = up * 2;
+const double tp = up * 3;
+const double qp = up * 4;
+const double hp = up / 2;
+const double dhp = up / 4;
+const double thp = up / 6;
+const int millDuration = 300;
+const double textHeight = 18;
+const double smallFontSize = 14;
+const double normalFontSize = 16;
+const double titleFontSize = 24;

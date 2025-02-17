@@ -1,0 +1,53 @@
+name: lifeloghd
+description: A simple log app.
+
+publish_to: "none"
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  cupertino_icons: ^1.0.6
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+  get_it: ^8.0.3
+  path: ^1.8.2
+  provider: ^6.1.1
+  scrollable_positioned_list: ^0.3.8
+  share_plus: ^10.1.4
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+  url_launcher: ^6.0.9
+  vibration: ^3.1.3
+  video_player: ^2.7.2
+  intl: ^0.20.2
+  number_to_words: ^1.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "icons/icon.png"
+  min_sdk_android: 21
+  macos:
+    generate: true
+    image_path: "icons/icon.png"
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - icons/icon.png
+    - icons/screen.jpeg
+    - icons/animation/
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/RobotoMono-Regular.ttf
+        - asset: fonts/RobotoMono-Bold.ttf
+          weight: 700
