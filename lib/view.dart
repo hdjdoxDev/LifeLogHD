@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lifeloghd/utils/constants/preferences.dart';
 import 'providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -40,20 +41,27 @@ class _LifeLogViewState extends State<LifeLogView> {
   Widget build(BuildContext context) {
     return Consumer<Dim>(
       builder: (context, dim, child) => Scaffold(
-        appBar: ReactiveAppBar(
-          dim: dim,
-          dt: now,
-          leadingData: ButtonData(
-              onTap: () => context.read<AnimationLogic>().setTimer(7),
-              onLongPress: () => context.read<AnimationLogic>().stopTimer(),
-              emoji: dim.longCare),
-          trailingData: ButtonData(
-              onTap: () => context.read<AnimationLogic>().setTimer(3),
-              onLongPress: () => context.read<AnimationLogic>().stopTimer(),
-              emoji: dim.shortCare),
-        ),
         body: Column(
           children: [
+            Consumer<SettingsProvider>(
+              builder: (context, settings, child) => ReactiveAppBar(
+                dim: dim,
+                dt: now,
+                title: settings.getTitle(),
+                leadingData: ButtonData(
+                    onTap: () => context.read<AnimationLogic>().setTimer(
+                        int.tryParse(settings.getString(pkLongTimer)) ?? 7),
+                    onLongPress: () =>
+                        context.read<AnimationLogic>().stopTimer(),
+                    emoji: dim.longCare),
+                trailingData: ButtonData(
+                    onTap: () => context.read<AnimationLogic>().setTimer(
+                        int.tryParse(settings.getString(pkLongTimer)) ?? 3),
+                    onLongPress: () =>
+                        context.read<AnimationLogic>().stopTimer(),
+                    emoji: dim.shortCare),
+              ),
+            ),
             Expanded(
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: millDuration),
@@ -139,8 +147,10 @@ class _LifeLogViewState extends State<LifeLogView> {
             ),
             BottomTextInput(
               activeColor: dim.activeColor,
-              leadingData:
-                  ButtonData(onTap: dim.changePage, emoji: dim.nextDig.emoji),
+              leadingData: ButtonData(
+                  onTap: dim.changePage,
+                  onLongPress: dim.deepPage,
+                  emoji: dim.nextDig.emoji),
               trailingData: ButtonData(
                   onTap: () {
                     if (dim.activeDig == Dig.log) {

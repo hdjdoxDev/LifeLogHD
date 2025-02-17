@@ -38,6 +38,8 @@ Features
 ## to test
 
 ## tested
+- [x] edit timers
+- [x] edit dye names
 - [x] update launch screen ios
 - [x] implement server connection
 - [x] reload log results inbetween dim notifications

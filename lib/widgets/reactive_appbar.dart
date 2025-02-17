@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'title_bar.dart';
 import 'corner_button.dart';
 import '../providers/dim.dart';
-import '../providers/settings_provider.dart';
 import '../utils/constants/spacing.dart';
 import '../args/button_data.dart';
 
@@ -16,9 +14,11 @@ class ReactiveAppBar extends StatelessWidget implements PreferredSizeWidget {
   Color get color => dim.activeColor;
   final ButtonData? leadingData;
   final ButtonData? trailingData;
+  final String title;
   final void Function()? onTap;
   final void Function()? onDoubleTap;
   final void Function()? onLongPress;
+
 
   const ReactiveAppBar({
     super.key,
@@ -27,6 +27,7 @@ class ReactiveAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onDoubleTap,
     this.onLongPress,
     required this.dt,
+    required this.title,
     this.leadingData,
     this.trailingData,
   });
@@ -51,13 +52,11 @@ class ReactiveAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             CornerButton(data: leadingData, color: color),
             const SizedBox(width: hp),
-            Consumer<SettingsProvider>(
-              builder: (context, settings, child) => TitleBar(
-                title: settings.getTitle(),
-                color: dim.activeColor,
-                dt: dt,
-                emoji: dim.activeDig.emoji,
-              ),
+            TitleBar(
+              title: title,
+              color: dim.activeColor,
+              dt: dt,
+              emoji: dim.activeDig.emoji,
             ),
             const SizedBox(width: hp),
             CornerButton(data: trailingData, color: color)

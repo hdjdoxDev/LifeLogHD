@@ -6,3 +6,5 @@ const pkDeviceId = "device";
 const pkPassword = "password";
 const pkUserId = "user";
 const pkLastExport = "last_export";
+const pkLongTimer = "long_timer";
+const pkShortTimer = "short_timer";

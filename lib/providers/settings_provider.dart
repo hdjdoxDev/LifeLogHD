@@ -18,8 +18,11 @@ class SettingsProvider extends ChangeNotifier {
   String dyeKey(Dye d) => "${d.short}$pkDyeNames";
 
   List<String> get editableKeys => [
-        pkDeviceId,
+        dim.activeDye.short + pkDyeNames,
         pkUserId,
+        pkDeviceId,
+        pkLongTimer,
+        pkShortTimer,
         pkIpAddress,
         pkConnection,
         pkLastExport,
@@ -40,11 +43,14 @@ class SettingsProvider extends ChangeNotifier {
     return ret;
   }
 
-  String getString(String key) =>
-      prefs.containsKey(key) ? prefs.getString(key)! : "";
+  String getString(String key) => key == pkPassword
+      ? "*******"
+      : prefs.containsKey(key)
+          ? prefs.getString(key)!
+          : "";
 
-  String dyeName(Dye d) => capitalize(prefs.containsKey("$pkDyeNames${d.short}")
-      ? prefs.getString("$pkDyeNames${d.short}")!
+  String dyeName(Dye d) => capitalize(prefs.containsKey("${d.short}$pkDyeNames")
+      ? capitalize(getString("${d.short}$pkDyeNames"))
       : d.defaultName);
 
   int? activeKeyIndex;
@@ -55,16 +61,32 @@ class SettingsProvider extends ChangeNotifier {
       dim.textController.text = "";
     } else {
       activeKeyIndex = id;
-      dim.textController.text = getString(editableKeys[activeKeyIndex!]);
+      var oldVal = getString(editableKeys[activeKeyIndex!]);
+      dim.textController.text = oldVal == "" ? dim.cleanTextInput : oldVal;
     }
     notifyListeners();
   }
 
   void saveLog() async {
-    if (activeKeyIndex != null && activeKeyIndex! < editableKeys.length ||
+    if (activeKeyIndex != null &&
+        activeKeyIndex! < editableKeys.length &&
         activeKeyIndex! >= 0) {
       var activeKey = editableKeys[activeKeyIndex!];
-      prefs.setString(activeKey, dim.cleanTextInput);
+      if (activeKey == pkLongTimer || activeKey == pkShortTimer) {
+        if (int.tryParse(dim.cleanTextInput) != null) {
+          prefs.setString(activeKey, dim.cleanTextInput);
+        }
+      } else if (activeKey.substring(1) == pkDyeNames) {
+        if (dim.cleanTextInput.length < 6) {
+          prefs.setString(activeKey, dim.cleanTextInput);
+        }
+      } else if (activeKey == pkPassword) {
+        if (prefs.getString(pkPassword) == null) {
+          prefs.setString(activeKey, dim.cleanTextInput);
+        }
+      } else {
+        prefs.setString(activeKey, dim.cleanTextInput);
+      }
       dim.textController.text = "";
       dim.clearInput();
       activeKeyIndex = null;

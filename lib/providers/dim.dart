@@ -105,4 +105,10 @@ class Dim extends ChangeNotifier {
 
   void goToPage(int i) => pageCtrl.animateToPage(i,
       duration: Durations.medium1, curve: Curves.easeInOut);
+
+  void deepPage() => pageCtrl.page == 0
+      ? pageCtrl.nextPage(duration: Durations.medium1, curve: Curves.easeInOut)
+      : pageCtrl.animateToPage(0,
+          duration: Durations.medium1, curve: Curves.easeInOut);
+
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../utils/time.dart';
 import 'model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
@@ -177,6 +178,7 @@ class LogApi {
           .where((e) =>
               e.dye.isIn(dim.activeDye) &&
               e.due == dim.activeDue &&
-              e.time.isAfter(dt))
+              e.time.isAfter(dt) &&
+              e.time.isAfter(now.subtract(Duration(minutes: 30))))
           .toList());
 }
